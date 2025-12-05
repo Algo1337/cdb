@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "array": "c",
+        "charconv": "c",
+        "compare": "c",
+        "complex": "c",
+        "functional": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "variant": "c",
+        "text_encoding": "c",
+        "typeinfo": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "malloc.h": "c",
+        "string.h": "c",
+        "string": "c",
+        "string_view": "c",
+        "rope": "c",
+        "bitset": "c",
+        "algorithm": "c",
+        "format": "c",
+        "chrono": "c",
+        "internet": "c",
+        "typeindex": "c"
+    }
+}
