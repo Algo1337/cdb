@@ -1,4 +1,4 @@
-<div align="ceneter">
+<div align="center">
     <h1>cdb</h1>
 	<p>db written in C</p>
 </div>
