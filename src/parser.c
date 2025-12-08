@@ -57,7 +57,8 @@ int parse_database(db_t db, char **lines, int count)
 		    printf("[ LINE:%d ]: %s\n", i, lines[i]);
     }
     
-    db->tables[db->len++] = to_heap(&table, sizeof(_table));
+    // db->tables[db->len++] = to_heap(&table, sizeof(_table));
+    append_table(db, to_heap(&table, sizeof(_table)));
     db->tables[db->len] = NULL;
 
     return 1;
@@ -76,9 +77,11 @@ int parse_db_header(db_t db, char **lines)
 
         db->name = strdup(args[1]);
         db->created_at = strdup(args[2]);
+		db->name[strlen(db->name) - 1] = '\0';
 
         /* Debug */
-        printf("db: %s | Created At: %s\n", db->name, db->created_at);
+        if(___DB_DEBUG)
+        	printf("db: %s | Created At: %s\n", db->name, db->created_at);
         free_arr((void *)args);
     }
 
@@ -122,9 +125,10 @@ int parse_table(db_t db, table_t table, char **lines, int line_c, int *start)
 
     char **args;
     int arg_c;
+    (*start)++;
     for(;*start < line_c; (*start)++)
     {
-        if(lines[*start][0] != '(')
+        if(lines[*start][0] != '(' && lines[*start][0] == '@')
             break;
 
         if(lines[*start][0] != '@') {

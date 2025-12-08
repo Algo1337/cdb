@@ -1,9 +1,20 @@
 .PHONY: all
 
-all: compile
+all: compile test lib
 
 compile:
-	gcc main.c src/*.c -g -g3 -ggdb
+	gcc cli.c -o cli src/*.c -g -g3 -ggdb
+
+lib:
+	gcc -c src/*.c
+	ar rcs cdb.a *.o; rm *.o
+	mv cdb.a /usr/local/lib/libcdb.a
+	cp cli /bin/
+
+test:
+	gcc tests/create.c -o create src/*.c -g -g3 -ggdb && ./create test
+	gcc tests/view.c -o view src/*.c -g -g3 -ggdb && ./view test
 
 debug:
-	gcc main.c src/*.c -g -g3 -ggdb -fsanitize=address
+	gcc tests/view.c -o view src/*.c -g -g3 -ggdb -fsanitize=address
+	gcc tests/create.c -o create src/*.c -g -g3 -ggdb -fsanitize=address && sudo ./create

@@ -1,37 +1,12 @@
 #include "init.h"
 
-int create_db_file(char *name, char *db_name, char **tables, char *time)
+int save_file(char *name, char *data)
 {
-    if(!db_name)
-        return 0;
-
-    FILE *stream = fopen(db_name, "w");
+    FILE *stream = fopen(name, "w");
     if(!stream)
     {
         _err("unable to create file...!");
         return 0;
-    }
-
-    char data[1024];
-    strcpy(data, "[@DB: ");
-    strcat(data, name);
-    strcat(data, "] ");
-    strcat(data, time);
-    strcat(data, "\n");
-
-    for(int i = 0; tables[i] != NULL; i++) {
-        strcat(data, tables[i]);
-        if(tables[i + 1]) strcat(data, ", ");
-    }
-
-    strcat(data, "\n\n");
-    for(int i = 0; tables[i] != NULL; i++)
-    {
-        strcat(data, "@");
-        strcat(data, tables[i]);
-        strcat(data, " ");
-        strcat(data, time);
-        strcat(data, "\n\n");
     }
 
     fprintf(stream, "%s", data);
@@ -44,7 +19,7 @@ char *get_current_time()
 {
     time_t t;
     struct tm *tm_info;
-    char buffer[30];
+    char buffer[50] = {0};
 
     if(time(&t) == ((time_t)-1))
         _err("unable to get current time...!");
@@ -83,7 +58,7 @@ char *_get_file_content(char *filename, int *bytes)
         return NULL;
     }
 
-    return to_heap(data, len + 5);
+    return str_to_heap(data);
 }
 
 int count_char(char *buffer, char ch)
@@ -115,7 +90,7 @@ char **__split(char *buffer, char *delim, int *idx)
 
         arr[*idx] = malloc(len + 1);
         memcpy(arr[*idx], token, len + 1);
-        
+
         (*idx)++;
 
         if(!(arr = realloc(arr, sizeof(char *) * (*idx + 1)))) {
@@ -176,6 +151,23 @@ int trim_idx(char *buffer, int index)
 	return 1;
 }
 
+void *arr_to_heap(void **p, int sz)
+{
+    void *ptr = malloc(sz);
+    memcpy(ptr, p, sz);
+
+    return ptr;
+}
+
+char *str_to_heap(const char *p)
+{
+    int len = strlen(p);
+    char *ptr = malloc(len + 1);
+
+    memcpy(ptr, p, len + 1);
+    return ptr;
+}
+
 void *to_heap(void *p, int sz)
 {
     void *ptr = malloc(sz);
@@ -188,4 +180,6 @@ void free_arr(void **arr)
 { 
     for(int i = 0; arr[i] != NULL; i++) 
         free(arr[i]);
+
+    free(arr);
 }
