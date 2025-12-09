@@ -18,3 +18,8 @@ test:
 debug:
 	gcc tests/view.c -o view src/*.c -g -g3 -ggdb -fsanitize=address
 	gcc tests/create.c -o create src/*.c -g -g3 -ggdb -fsanitize=address && sudo ./create
+
+clean:
+	rm -rf create
+	rm -rf view
+	rm -rf cli

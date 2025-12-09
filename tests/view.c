@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     printf("\n");
 
 
-	table_row_value row = (table_row_value)get_row(logs, 1, 0, "root");
-	printf("Password to root user: %s\n", row);
+	table_row_value row = (table_row_value)get_row(logs, 0, 1, "dick_db");
+	printf("First-Row Second-Cell Value: %s\n", row);
 
     return 0;
 }
